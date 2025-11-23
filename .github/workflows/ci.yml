@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 18, 20 ]
+        node: [ 18, 20, 22 ]
     
     steps:
     - uses: actions/checkout@v5
@@ -23,3 +23,6 @@ jobs:
         node-version: ${{ matrix.node }}
     - run: npm install
     - run: npm run test
+
+    - name: Build docker image
+      run: docker build -t rocketseat-ci-api:latest .
