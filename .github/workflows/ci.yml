@@ -10,13 +10,16 @@ jobs:
   build:
     name: 'Build and push'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
     
     steps:
     - uses: actions/checkout@v5
     
-    - name: Setup node
+    - name: Setup node | ${{ matrix.node }}
       uses: actions/setup-node@v6
       with:
-        node-version: 22
+        node-version: ${{ matrix.node }}
     - run: npm install
     - run: npm run test
