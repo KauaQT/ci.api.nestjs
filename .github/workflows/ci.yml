@@ -10,9 +10,9 @@ jobs:
   build:
     name: 'Build and push'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 18, 20, 22 ]
+    #strategy:
+    #  matrix:
+    #    node: [ 18, 20, 22 ]
     
     steps:
     - uses: actions/checkout@v5
@@ -20,7 +20,8 @@ jobs:
     - name: Setup node | ${{ matrix.node }}
       uses: actions/setup-node@v6
       with:
-        node-version: ${{ matrix.node }}
+        node_version: 24
+    #    node-version: ${{ matrix.node }}
     - run: npm install
     - run: npm run test
 
@@ -35,9 +36,15 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: kauaqt/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }},kauaqt/rocketseat-ci-api:latest
 
-    - name: Build docker image
-      run: docker build -t kauaqt/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }} .
+#    - name: Build docker image
+#      run: docker build -t kauaqt/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }} .
 
-    - name: Push image
-      run: docker push kauaqt/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }}
+#    - name: Push image
+#      run: docker push kauaqt/rocketseat-ci-api:${{ steps.generate_tag.outputs.sha }}
