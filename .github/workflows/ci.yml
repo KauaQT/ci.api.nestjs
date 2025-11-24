@@ -53,11 +53,7 @@ jobs:
       run: | 
         docker build -t $REGISTRY/rocketseat-ci/rocketseat-ci-api:$TAG .
         docker push $REGISTRY/rocketseat-ci/rocketseat-ci-api:$TAG
-
-    - name: Push image
-
-    
-
+  
 
 
     #- name: Login into the container registry
